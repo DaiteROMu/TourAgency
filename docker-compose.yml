@@ -1,0 +1,17 @@
+version: '3.4'
+services:
+  postgres_image:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+        POSTGRES_PASSWORD: 123pass456
+        POSTGRES_DB: TourAgencyDb
+    ports:
+      - 5432:5432
+  webapp_image:
+    image: daiteromu/touragency:latest
+    container_name: webapp
+    ports:
+      - 8080:80
+    links:
+      - postgres_image

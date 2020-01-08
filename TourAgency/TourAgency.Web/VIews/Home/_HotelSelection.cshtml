@@ -1,0 +1,21 @@
+@model HotelSelectionViewModel
+
+<div id="hotel-form">
+    <div class="hotel-form-group">
+        <select id="country-select" asp-items="Model.Countries" class="form-control hotel-form-control" onchange="GetCitiesBySelectedCountryId()"></select>
+    </div>
+
+    <div id="city-selection-block" class="hotel-form-group">
+        <partial name="_CitySelection" model="Model.Cities" />
+    </div>
+
+    <div class="hotel-form-group">
+        <select id="hotelcategory-select" multiple="multiple" asp-items="Model.HotelCategories" class="form-control hotel-form-control"></select>
+    </div>
+
+    <div class="hotel-form-group">
+        <button class="hotel-form-control btn" type="submit" onclick="GetHotelsFromSelection(1)">
+            Search
+        </button>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+@model HotelRoom
+
+<div id="hotelroom-details-container">
+    <div>
+        <span>
+            <a onclick="GetToursFromSelection(@Model.HotelId)" role="button"  href="#">
+                Back
+            </a>
+        </span>
+    </div>
+    <h2>
+        @Model.Name
+    </h2>
+    <div id="hotelroom-details-img">
+        @if (Model.Photos != null)
+        {
+            if (Model.Photos.Count == 0)
+            {
+                <img src="~/images/no_photo.png" />
+            }
+            else
+            {
+                if (Model.Photos.Count == 1)
+                {
+                    <img src="@System.IO.Path.Combine(Model.Photos[0].BaseDirectoryName, Model.Photos[0].DirectoryName, Model.Photos[0].ImageName)" />
+                }
+                else
+                {
+                    <div id="hotelroom-carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (int i = 0; i < Model.Photos.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <li data-target="#hotelroom-carousel" data-slide-to="@i" class="active"></li>
+                                }
+                                else
+                                {
+                                    <li data-target="#hotelroom-carousel" data-slide-to="@i"></li>
+                                }
+                            }
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            @for (int i = 0; i < Model.Photos.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <div class="item active">
+                                        @*<div class="item-responsive item-16by9">
+                                            <div class="item-content" style="background: url(@System.IO.Path.Combine(Model.Photos[i].BaseDirectoryName, Model.Photos[i].DirectoryName, Model.Photos[i].ImageName));">
+                                            </div>
+                                        </div>*@
+                                        <img src="@System.IO.Path.Combine(Model.Photos[i].BaseDirectoryName, Model.Photos[i].DirectoryName, Model.Photos[i].ImageName)" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="item">
+                                        @*<div class="item-responsive item-16by9">
+                                            <div class="item-content" style="background: url(@System.IO.Path.Combine(Model.Photos[i].BaseDirectoryName, Model.Photos[i].DirectoryName, Model.Photos[i].ImageName));">
+                                            </div>
+                                        </div>*@
+                                        <img src="@System.IO.Path.Combine(Model.Photos[i].BaseDirectoryName, Model.Photos[i].DirectoryName, Model.Photos[i].ImageName)" />
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <a class="left carousel-control" href="#hotelroom-carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Prev</span>
+                        </a>
+                        <a class="right carousel-control" href="#hotelroom-carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <img src="~/images/no_photo.png" />
+        }
+    </div>
+    <table class="hotelroomdetails-table">
+        <tr>
+            <td>
+                @string.Join(' ', Model.HotelRoomViewCategory.ShortName, Model.HotelRoomViewCategory.FullName)
+            </td>
+            <td>
+                @if ((Model.PersonsNumber - 1) % 10 == 0)
+                {
+                    @string.Join(' ', Model.PersonsNumber.ToString(), "person")
+                }
+                else
+                {
+                    @string.Join(' ', Model.PersonsNumber.ToString(), "persons")
+                }
+            </td>
+            <td>
+                @string.Join(' ', Model.Square.ToString(), "m2")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                @Model.Options
+            </td>
+        </tr>
+    </table>
+</div>

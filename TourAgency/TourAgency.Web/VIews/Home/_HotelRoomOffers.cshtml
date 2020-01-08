@@ -1,0 +1,169 @@
+@model List<HotelRoom>
+
+@if (Model != null)
+{
+    @if (Model.Count != 0)
+    {
+        <table class="hotelrooms-table">
+            @foreach (HotelRoom hotelRoom in Model)
+            {
+                @if (hotelRoom.Tours == null)
+                {
+                    <tr>
+                        <td>
+                            @if (hotelRoom.Photos == null)
+                            {
+                                <img src="~/images/no_photo.png" />
+                            }
+                            else
+                            {
+                                if (hotelRoom.Photos.Count == 0)
+                                {
+                                    <img src="~/images/no_photo.png" />
+                                }
+                                else
+                                {
+                                    <img src="@System.IO.Path.Combine(hotelRoom.Photos[0].BaseDirectoryName, hotelRoom.Photos[0].DirectoryName, hotelRoom.Photos[0].ImageName)" />
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a role="button" onclick="GetHotelRoomById(@hotelRoom.Id)"  href="#">
+                                @hotelRoom.Name
+                            </a>
+                        </td>
+                        <td>
+                            <span>
+                                @string.Join(' ', hotelRoom.Square.ToString(), "m2")
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                @if ((hotelRoom.PersonsNumber - 1) % 10 == 0)
+                                {
+                                    @string.Join(' ', hotelRoom.PersonsNumber.ToString(), "person")
+                                }
+                                else
+                                {
+                                    @string.Join(' ', hotelRoom.PersonsNumber.ToString(), "persons")
+                                }
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                @string.Join(' ', hotelRoom.HotelRoomViewCategory.ShortName, hotelRoom.HotelRoomViewCategory.FullName)
+                            </span>
+                        </td>
+                        <td colspan="3">
+                            <span>
+                                There are no tours into this hotel room.
+                            </span>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < hotelRoom.Tours.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            <tr>
+                                <td rowspan="@hotelRoom.Tours.Count.ToString()">
+                                    @if (hotelRoom.Photos == null)
+                                    {
+                                        <img src="~/images/no_photo.png" />
+                                    }
+                                    else
+                                    {
+                                        if (hotelRoom.Photos.Count == 0)
+                                        {
+                                            <img src="~/images/no_photo.png" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@System.IO.Path.Combine(hotelRoom.Photos[0].BaseDirectoryName, hotelRoom.Photos[0].DirectoryName, hotelRoom.Photos[0].ImageName)" />
+                                        }
+                                    }
+                                </td>
+                                <td rowspan="@hotelRoom.Tours.Count.ToString()">
+                                    <a role="button" onclick="GetHotelRoomById(@hotelRoom.Id)" href="#">
+                                        @hotelRoom.Name
+                                    </a>
+                                </td>
+                                <td rowspan="@hotelRoom.Tours.Count.ToString()">
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Square.ToString(), "m2")
+                                    </span>
+                                </td>
+                                <td rowspan="@hotelRoom.Tours.Count.ToString()">
+                                    <span>
+                                        @if ((hotelRoom.PersonsNumber - 1) % 10 == 0)
+                                        {
+                                            @string.Join(' ', hotelRoom.PersonsNumber.ToString(), "person")
+                                        }
+                                        else
+                                        {
+                                            @string.Join(' ', hotelRoom.PersonsNumber.ToString(), "persons")
+                                        }
+                                    </span>
+                                </td>
+                                <td rowspan="@hotelRoom.Tours.Count.ToString()">
+                                    <span>
+                                        @string.Join(' ', hotelRoom.HotelRoomViewCategory.ShortName, hotelRoom.HotelRoomViewCategory.FullName)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Tours[i].TourFoodCategory.ShortName, hotelRoom.Tours[i].TourFoodCategory.FullName)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Tours[i].Term.ToString(), "days")
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Tours[i].Price.ToString(), "$")
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Tours[i].TourFoodCategory.ShortName, hotelRoom.Tours[i].TourFoodCategory.FullName)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Tours[i].Term.ToString(), "days")
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @string.Join(' ', hotelRoom.Tours[i].Price.ToString(), "$")
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </table>
+    }
+    else
+    {
+        <h4>
+            There are no hotel rooms matching this searching terms. Change your searching terms.
+        </h4>
+    }
+}
+else
+{
+    <h4>
+        There are no hotel rooms matching this searching terms. Change your searching terms.
+    </h4>
+}

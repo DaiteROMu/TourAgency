@@ -1,0 +1,14 @@
+@model MainViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="hotel-selection-form-container">
+    <partial name="_HotelSelection" model="Model.HotelSelection" />
+</div>
+
+<div id="hotels-offers-container">
+    @await Component.InvokeAsync("HotelOffers", new { hotelOffersViewModel = Model.HotelOffers })
+</div>

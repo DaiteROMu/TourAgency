@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tour Agency</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-multiselect/css/bootstrap-multiselect.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-multiselect/css/bootstrap-multiselect.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
+    </environment>
+</head>
+<body>
+    <header>
+        <div>
+            <div>
+                <a asp-area="" asp-controller="Home" asp-action="Index">
+                    <img alt="Logo" src="~/images/logo.png" />
+                </a>
+            </div>
+            <div>
+                <a asp-area="" asp-controller="Home" asp-action="Index">
+                    Main
+                </a>
+            </div>
+            <div>
+                <a asp-area="" asp-controller="Home" asp-action="About">
+                    About
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="body-content">
+        @RenderBody()
+    </div>
+
+
+    <footer>
+        <div>
+            <div>
+                <span>
+                    Karatkevich Raman
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="~/lib/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+        <script type="text/javascript" src="~/js/site.js"></script>
+    </environment>
+    
+    <environment exclude="Development">
+        <script type="text/javascript" src="~/lib/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/lib/bootstrap-multiselect/js/bootstrap-multiselect.min.js"></script>
+        <script type="text/javascript" src="~/js/site.min.js"></script>
+    </environment>
+</body>
+</html>

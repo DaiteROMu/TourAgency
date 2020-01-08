@@ -1,0 +1,135 @@
+@model HotelOffersViewModel
+
+@if (Model != null)
+{
+    @if (Model.Hotels != null)
+    {
+        @if (Model.Hotels.Count > 0)
+        {
+            @foreach (ShortHotelViewModel hotel in Model.Hotels)
+            {
+                <div class="hotel-block">
+                    <div class="hotel-block-item">
+                        <a onclick="GetHotelById(@hotel.Hotel.Id)" role="button" href="#">
+                            <h2>
+                                @hotel.Hotel.Name
+                            </h2>
+                        </a>
+                    </div>
+                    <div class="hotel-block-item">
+                        <h4>
+                            @hotel.Hotel.City.Country.Name, @hotel.Hotel.City.Name
+                        </h4>
+                    </div>
+                    <div class="hotel-block-item">
+                        <hotel-star for-hotelcategoryname="@hotel.Hotel.HotelCategory.Name"></hotel-star>
+                    </div>
+                    <div class="hotel-block-item">
+                        @if (hotel.Hotel.Photos.FirstOrDefault() != null)
+                        {
+                            <img src="@System.IO.Path.Combine(hotel.Hotel.Photos.FirstOrDefault().BaseDirectoryName, hotel.Hotel.Photos.FirstOrDefault().DirectoryName, hotel.Hotel.Photos.FirstOrDefault().ImageName)" />
+                        }
+                        else
+                        {
+                            <img src="~/images/no_photo.png" />
+                        }
+                    </div>
+                    <div class="hotel-block-item">
+                        @if (hotel.MinTourPrice == 0 && hotel.MaxTourPrice == 0)
+                        {
+                            <h3>
+                                No tours
+                            </h3>
+                        }
+                        else
+                        {
+                            if (hotel.MaxTourPrice == hotel.MinTourPrice)
+                            {
+                                <h3>
+                                    @hotel.MaxTourPrice.ToString() $
+                                </h3>
+                            }
+                            else
+                            {
+                                <h3>
+                                    @hotel.MinTourPrice.ToString() - @hotel.MaxTourPrice.ToString() $
+                                </h3>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            @if (Model.HotelOffersPagination.TotalNumberOfPages > 1)
+            {
+                <div id="hotel-offers-pagination">
+                    <nav>
+                        <ul class="pagination pg-blue pagination-lg">
+                            @if (Model.HotelOffersPagination.IsPreviousPageButtonActive)
+                            {
+                                <li class="page-item">
+                                    <a href="#" class="page-link" role="button" onclick="GetHotelsFromSelection(@Model.HotelOffersPagination.CurrentPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link" role="button">
+                                        Previous
+                                    </a>
+                                </li>
+                            }
+
+
+                            @for (int i = 1; i <= Model.HotelOffersPagination.TotalNumberOfPages; i++)
+                            {
+                                <li class="page-item @(Model.HotelOffersPagination.CurrentPage == i ? "active" : "")">
+                                    <a href="#" class="page-link" role="button" onclick="GetHotelsFromSelection(@i)">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.HotelOffersPagination.IsNextPageButtonActive)
+                            {
+                                <li class="page-item">
+                                    <a href="#" class="page-link" role="button" onclick="GetHotelsFromSelection(@Model.HotelOffersPagination.CurrentPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link" role="button">
+                                        Next
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h4>
+                There are no hotels matching this searching terms. Change your searching terms.
+            </h4>
+        }
+    }
+    else
+    {
+        <h4>
+            There are no hotels matching this searching terms. Change your searching terms.
+        </h4>
+    }
+}
+else
+{
+    <h4>
+        There are no hotels matching this searching terms. Change your searching terms.
+    </h4>
+}

@@ -1,0 +1,133 @@
+﻿@model HotelDetailsViewModel
+
+<div id="tour-details">
+    <div>
+        <span>
+            <a onclick="GetHotelsFromSelection(1)" role="button" href="#">
+                Back
+            </a>
+        </span>
+    </div>
+    <div class="tour-details-item">
+        <h1>
+            @Model.Hotel.Name
+        </h1>
+    </div>
+    <div class="tour-details-item">
+        <h2>
+            @Model.Hotel.HotelCategory.Name
+        </h2>
+    </div>
+    <div class="tour-details-item">
+        <h3>
+            @Model.Hotel.City.Name, @Model.Hotel.City.Country.Name
+        </h3>
+    </div>
+    <div class="tour-details-item" id="tour-details-image">
+        @if (Model.Hotel.Photos != null)
+        {
+            if (Model.Hotel.Photos.Count == 0)
+            {
+                <img src="~/images/no_photo.png" />
+            }
+            else
+            {
+                if (Model.Hotel.Photos.Count == 1)
+                {
+                    <img src="@System.IO.Path.Combine(Model.Hotel.Photos[0].BaseDirectoryName, Model.Hotel.Photos[0].DirectoryName, Model.Hotel.Photos[0].ImageName)" />
+                }
+                else
+                {
+                    <div id="hotel-carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (int i = 0; i < Model.Hotel.Photos.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <li data-target="#hotel-carousel" data-slide-to="@i" class="active"></li>
+                                }
+                                else
+                                {
+                                    <li data-target="#hotel-carousel" data-slide-to="@i"></li>
+                                }
+                            }
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            @for (int i = 0; i < Model.Hotel.Photos.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <div class="item active">
+                                        <img src="@System.IO.Path.Combine(Model.Hotel.Photos[i].BaseDirectoryName, Model.Hotel.Photos[i].DirectoryName, Model.Hotel.Photos[i].ImageName)" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="item">
+                                        <img src="@System.IO.Path.Combine(Model.Hotel.Photos[i].BaseDirectoryName, Model.Hotel.Photos[i].DirectoryName, Model.Hotel.Photos[i].ImageName)" />
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <a class="left carousel-control" href="#hotel-carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Prev</span>
+                        </a>
+                        <a class="right carousel-control" href="#hotel-carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <img src="~/images/no_photo.png" />
+        }
+    </div>
+    <div class="tour-details-item">
+        <div id="hotelroom-form">
+            <div class="hotelroom-form-group">
+                <select id="hotelroom-name-select" multiple="multiple" asp-items="Model.HotelRoomNames" class="form-control hotelroom-form-control"></select>
+            </div>
+            <div class="hotelroom-form-group">
+                <select id="foodcategory-select" multiple="multiple" asp-items="Model.FoodCategories" class="form-control hotelroom-form-control"></select>
+            </div>
+            <div class="hotelroom-form-group">
+                <button class="hotelroom-form-control btn" type="submit" onclick="GetToursFromSelection(@Model.Hotel.Id)">
+                    Search
+                </button>
+            </div>
+        </div>        
+    </div>
+    <div class="tour-details-item">
+        <div id="hotelroom-tours-container">
+            <partial name="_HotelRoomOffers" model="Model.HotelRooms" />
+        </div>
+    </div>
+    <div class="tour-details-item">
+        <span>
+            @Model.Hotel.Description
+        </span>
+    </div>
+    <div class="tour-details-item">
+        <h3>
+            @Model.Hotel.SiteUrl
+        </h3>
+    </div>
+    <div class="tour-details-item">
+        <h3>
+            @Model.Hotel.Address
+        </h3>
+    </div>
+    <div class="tour-details-item">
+        <h3>
+            @Model.Hotel.PhoneNumber
+        </h3>
+    </div>
+</div>
+
+<script type="text/javascript">
+    GetMultipleSelects();
+</script>
